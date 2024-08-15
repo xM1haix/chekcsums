@@ -67,30 +67,27 @@ class _CustomTableState<T> extends State<CustomTable<T>> {
           child: Row(
             children: List.generate(
               widget.element(_h).length,
-              (j) => InkWell(
-                onTap: () {},
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: _columnWidth[j],
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            widget.element(_h)[j],
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
+              (j) => Row(
+                children: [
+                  SizedBox(
+                    width: _columnWidth[j],
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          widget.element(_h)[j],
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
-                    if (j + 1 < widget.element(_h).length)
-                      GestureDetector(
-                        onDoubleTap: () => _doubleTapMin(j),
-                        onHorizontalDragUpdate: (x) => _resize(j, x),
-                        child: _div,
-                      ),
-                  ],
-                ),
+                  ),
+                  if (j + 1 < widget.element(_h).length)
+                    GestureDetector(
+                      onDoubleTap: () => _doubleTapMin(j),
+                      onHorizontalDragUpdate: (x) => _resize(j, x),
+                      child: _div,
+                    ),
+                ],
               ),
             ),
           ),
