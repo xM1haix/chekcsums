@@ -1,7 +1,5 @@
 class SortingData<T> {
-  final int Function(T a, T b)? onASC, onDESC;
-  SortingData({
-    required this.onASC,
-    required this.onDESC,
-  });
+  const SortingData({required this.onASC, required this.onDESC});
+  final int Function(T a, T b)? onASC;
+  final int Function(T a, T b)? onDESC;
 }

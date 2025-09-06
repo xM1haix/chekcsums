@@ -1,14 +1,10 @@
-import 'dart:math';
+import "dart:math";
 
-import 'package:chekcsums/extensions.dart';
-import 'package:chekcsums/sorting_data.dart';
-import 'package:flutter/material.dart';
+import "package:chekcsums/extensions.dart";
+import "package:chekcsums/sorting_data.dart";
+import "package:flutter/material.dart";
 
 class CustomTable<T> extends StatefulWidget {
-  final T header;
-  final List<T> data;
-  final List<SortingData<T>> sort;
-  final List<String> Function(T) element;
   const CustomTable({
     required this.header,
     required this.data,
@@ -16,6 +12,10 @@ class CustomTable<T> extends StatefulWidget {
     required this.element,
     super.key,
   });
+  final T header;
+  final List<T> data;
+  final List<SortingData<T>> sort;
+  final List<String> Function(T) element;
   @override
   State<CustomTable<T>> createState() => _CustomTableState<T>();
 }
