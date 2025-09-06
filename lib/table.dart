@@ -25,38 +25,12 @@ class _CustomTableState<T> extends State<CustomTable<T>> {
   late final List<T> _data = widget.data;
   late final List<double> _minWidth;
   late final _columnWidth = List.generate(
-      widget.element(_h).length, (x) => widget.element(_h)[x].width() + 50);
-  void _doubleTapMin(int j) => setState(() => _columnWidth[j] = _minWidth[j]);
-  void _resize(int j, DragUpdateDetails x) {
-    setState(() {
-      _columnWidth[j] += x.primaryDelta!;
-      _columnWidth[j] = max(_columnWidth[j], widget.element(_h)[j].width());
-    });
-  }
-
-  void _init() {
-    for (var i = 0; i < _data.length; i++) {
-      for (var j = 0; j < widget.element(_data[i]).length; j++) {
-        _columnWidth[j] =
-            max(_columnWidth[j], widget.element(_data[i])[j].width());
-      }
-    }
-    _minWidth = _columnWidth.map((e) => e).toList();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _init();
-  }
-
+    widget.element(_h).length,
+    (x) => widget.element(_h)[x].width() + 50,
+  );
   final _div = const Padding(
     padding: EdgeInsets.symmetric(horizontal: 10),
-    child: VerticalDivider(
-      thickness: 3,
-      width: 3,
-      color: Colors.white,
-    ),
+    child: VerticalDivider(thickness: 3, width: 3, color: Colors.white),
   );
   @override
   Widget build(BuildContext context) {
@@ -99,23 +73,20 @@ class _CustomTableState<T> extends State<CustomTable<T>> {
               return SizedBox(
                 height: 30,
                 child: Row(
-                  children: List.generate(
-                    widget.element(_data[i]).length,
-                    (j) {
-                      return Row(
-                        children: [
-                          SizedBox(
-                            width: _columnWidth[j],
-                            child: Text(
-                              widget.element(_data[i])[j],
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                  children: List.generate(widget.element(_data[i]).length, (j) {
+                    return Row(
+                      children: [
+                        SizedBox(
+                          width: _columnWidth[j],
+                          child: Text(
+                            widget.element(_data[i])[j],
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          if (j + 1 < widget.element(_data[i]).length) _div
-                        ],
-                      );
-                    },
-                  ),
+                        ),
+                        if (j + 1 < widget.element(_data[i]).length) _div,
+                      ],
+                    );
+                  }),
                 ),
               );
             },
@@ -123,5 +94,32 @@ class _CustomTableState<T> extends State<CustomTable<T>> {
         ),
       ],
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _init();
+  }
+
+  void _doubleTapMin(int j) => setState(() => _columnWidth[j] = _minWidth[j]);
+
+  void _init() {
+    for (var i = 0; i < _data.length; i++) {
+      for (var j = 0; j < widget.element(_data[i]).length; j++) {
+        _columnWidth[j] = max(
+          _columnWidth[j],
+          widget.element(_data[i])[j].width(),
+        );
+      }
+    }
+    _minWidth = _columnWidth.map((e) => e).toList();
+  }
+
+  void _resize(int j, DragUpdateDetails x) {
+    setState(() {
+      _columnWidth[j] += x.primaryDelta!;
+      _columnWidth[j] = max(_columnWidth[j], widget.element(_h)[j].width());
+    });
   }
 }

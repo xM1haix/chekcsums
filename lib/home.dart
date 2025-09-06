@@ -1,10 +1,8 @@
-import 'package:file_picker/file_picker.dart';
+import 'package:chekcsums/file_data.dart';
+import 'package:chekcsums/future.dart';
+import 'package:chekcsums/sorting_data.dart';
+import 'package:chekcsums/table.dart';
 import 'package:flutter/material.dart';
-
-import 'file_data.dart';
-import 'future.dart';
-import 'sorting_data.dart';
-import 'table.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -16,16 +14,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String? _selectedDirectory;
   Future<List<FileData>>? _future;
-
-  Future<void> _pickDirectory() async {
-    String? directoryPath = await FilePicker.platform.getDirectoryPath();
-    if (directoryPath != null) {
-      setState(() {
-        _selectedDirectory = directoryPath;
-        _future = getFolderStructure(directoryPath);
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,14 +35,14 @@ class _HomeState extends State<Home> {
             )
           : CustomFutureBuilder(
               future: _future!,
-              success: (x) => CustomTable(
+              success: (x) => CustomTable<FileData>(
                 header: FileData.header(),
                 data: x,
                 element: (e) => [
                   e.path,
                   e.formatFileSize(),
                 ],
-                sort: <SortingData<FileData>>[
+                sort: [
                   SortingData(
                     onASC: (a, b) => a.path.compareTo(b.path),
                     onDESC: (a, b) => b.path.compareTo(a.path),
@@ -67,5 +55,14 @@ class _HomeState extends State<Home> {
               ),
             ),
     );
+  }
+
+  Future<void> _pickDirectory() async {
+    // if (directoryPath != null) {
+    //   setState(() {
+    //     _selectedDirectory = directoryPath;
+    //     _future = getFolderStructure(directoryPath);
+    //   });
+    // }
   }
 }
